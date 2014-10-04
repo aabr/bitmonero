@@ -36,6 +36,8 @@
 
 DISABLE_VS_WARNINGS(4146 4244)
 
+namespace crypto
+{
 /* Predeclarations */
 
 static void fe_mul(fe, const fe, const fe);
@@ -2923,3 +2925,5 @@ int sc_isnonzero(const unsigned char *s) {
     s[18] | s[19] | s[20] | s[21] | s[22] | s[23] | s[24] | s[25] | s[26] |
     s[27] | s[28] | s[29] | s[30] | s[31]) - 1) >> 8) + 1;
 }
+
+} // namespace crypto

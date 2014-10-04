@@ -653,7 +653,7 @@ static OAES_RET oaes_key_gen( OAES_CTX * ctx, size_t key_size )
 #endif // OAES_HAVE_ISAAC
 	
 	_ctx->key = _key;
-	_rc = _rc || oaes_key_expand( ctx );
+	_rc = (OAES_RET)(_rc || oaes_key_expand( ctx ));
 	
 	if( _rc != OAES_RET_SUCCESS )
 	{
@@ -821,7 +821,7 @@ OAES_RET oaes_key_import( OAES_CTX * ctx,
 	}
 
 	memcpy( _ctx->key->data, data + OAES_BLOCK_SIZE, _key_length );
-	_rc = _rc || oaes_key_expand( ctx );
+	_rc = (OAES_RET)(_rc || oaes_key_expand( ctx ));
 	
 	if( _rc != OAES_RET_SUCCESS )
 	{
@@ -873,7 +873,7 @@ OAES_RET oaes_key_import_data( OAES_CTX * ctx,
 	}
 
 	memcpy( _ctx->key->data, data, data_len );
-	_rc = _rc || oaes_key_expand( ctx );
+	_rc = (OAES_RET)(_rc || oaes_key_expand( ctx ));
 	
 	if( _rc != OAES_RET_SUCCESS )
 	{
@@ -1309,8 +1309,8 @@ OAES_RET oaes_encrypt( OAES_CTX * ctx,
 				_block[_j] = _block[_j] ^ _ctx->iv[_j];
 		}
 
-		_rc = _rc ||
-				oaes_encrypt_block( ctx, _block, OAES_BLOCK_SIZE );
+		_rc = (OAES_RET)(_rc ||
+				oaes_encrypt_block( ctx, _block, OAES_BLOCK_SIZE ));
 		memcpy( c + 2 * OAES_BLOCK_SIZE + _i, _block, OAES_BLOCK_SIZE );
 		
 		if( _ctx->options & OAES_OPTION_CBC )
@@ -1412,8 +1412,8 @@ OAES_RET oaes_decrypt( OAES_CTX * ctx,
 		if( ( _options & OAES_OPTION_CBC ) && _i > 0 )
 			memcpy( _iv, c + OAES_BLOCK_SIZE + _i, OAES_BLOCK_SIZE );
 		
-		_rc = _rc ||
-				oaes_decrypt_block( ctx, m + _i, min( *m_len - _i, OAES_BLOCK_SIZE ) );
+		_rc = (OAES_RET)(_rc ||
+				oaes_decrypt_block( ctx, m + _i, min( *m_len - _i, OAES_BLOCK_SIZE ) ));
 		
 		// CBC
 		if( _options & OAES_OPTION_CBC )

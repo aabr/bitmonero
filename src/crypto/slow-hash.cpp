@@ -125,9 +125,8 @@
 #define THREADV __thread
 #endif
 
-extern int aesb_single_round(const uint8_t *in, uint8_t*out, const uint8_t *expandedKey);
-extern int aesb_pseudo_round(const uint8_t *in, uint8_t *out, const uint8_t *expandedKey);
-
+namespace crypto
+{
 #pragma pack(push, 1)
 union cn_slow_hash_state
 {
@@ -402,7 +401,7 @@ void cn_slow_hash(const void *data, size_t length, char *hash)
     if(hp_state == NULL)
         slow_hash_allocate_state();
 
-    hash_process(&state.hs, data, length);
+    hash_process(&state.hs, (const uint8_t*)data, length);
     memcpy(text, state.init, INIT_SIZE_BYTE);
 
     if(useAes)
@@ -449,7 +448,7 @@ void cn_slow_hash(const void *data, size_t length, char *hash)
         for(i = 0; i < ITER / 2; i++)
         {
             pre_aes();
-            aesb_single_round((uint8_t *) &_c, (uint8_t *) &_c, (uint8_t *) &_a);
+            aesb_single_round((const uint8_t *) &_c, (uint8_t *) &_c, (const uint8_t *) &_a);
             post_aes();
         }
     }
@@ -482,3 +481,5 @@ void cn_slow_hash(const void *data, size_t length, char *hash)
     hash_permutation(&state.hs);
     extra_hashes[state.hs.b[0] & 3](&state, 200, hash);
 }
+
+} // namespace crypto

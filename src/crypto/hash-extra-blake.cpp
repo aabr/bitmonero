@@ -33,6 +33,9 @@
 
 #include "blake256.h"
 
+namespace crypto
+{
 void hash_extra_blake(const void *data, size_t length, char *hash) {
-  blake256_hash((uint8_t*)hash, data, length);
+  blake256_hash((uint8_t*)hash, (const uint8_t *)data, length);
 }
+} // namespace crypto

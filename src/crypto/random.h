@@ -32,4 +32,7 @@
 
 #include <stddef.h>
 
+namespace crypto
+{
 void generate_random_bytes(size_t n, void *result);
+}
