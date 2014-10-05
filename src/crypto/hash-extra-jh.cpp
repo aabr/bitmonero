@@ -28,11 +28,18 @@
 // 
 // Parts of this file are originally copyright (c) 2012-2013 The Cryptonote developers
 
+#include <assert.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 
-#include "blake256.h"
+#include "jh.h"
+#include "hash-ops.h"
 
-void hash_extra_blake(const void *data, size_t length, char *hash) {
-  blake256_hash((uint8_t*)hash, data, length);
+namespace crypto
+{
+void hash_extra_jh(const void *data, size_t length, char *hash) {
+  int r = jh_hash(HASH_SIZE * 8, (const BitSequence*)data, 8 * length, (uint8_t*)hash);
+  assert(SUCCESS == r);
 }
+} // namespace crypto

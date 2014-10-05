@@ -15,6 +15,8 @@
 #define ROTL64(x, y) (((x) << (y)) | ((x) >> (64 - (y))))
 #endif
 
+namespace crypto
+{
 // compute a keccak hash (md) of given byte length from "in"
 int keccak(const uint8_t *in, int inlen, uint8_t *md, int mdlen);
 
@@ -22,5 +24,7 @@ int keccak(const uint8_t *in, int inlen, uint8_t *md, int mdlen);
 void keccakf(uint64_t st[25], int norounds);
 
 void keccak1600(const uint8_t *in, int inlen, uint8_t *md);
+
+} // namespace crypto
 
 #endif

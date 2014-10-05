@@ -25,7 +25,12 @@ Public domain.
 #define U8TO32_LITTLE(p) SWAP32LE(((uint32_t*)(p))[0])
 #define U32TO8_LITTLE(p, v) (((uint32_t*)(p))[0] = SWAP32LE(v))
 
+#ifdef _MSC_VER
+#define ROTATE(v,c) (_rotl(v,c))
+#else
 #define ROTATE(v,c) (rol32(v,c))
+#endif
+
 #define XOR(v,w) ((v) ^ (w))
 #define PLUS(v,w) (U32V((v) + (w)))
 #define PLUSONE(v) (PLUS((v),1))
@@ -36,6 +41,8 @@ Public domain.
   a = PLUS(a,b); d = ROTATE(XOR(d,a), 8); \
   c = PLUS(c,d); b = ROTATE(XOR(b,c), 7);
 
+namespace crypto
+{
 static const char sigma[] = "expand 32-byte k";
 
 DISABLE_GCC_AND_CLANG_WARNING(strict-aliasing)
@@ -168,3 +175,5 @@ void chacha8(const void* data, size_t length, const uint8_t* key, const uint8_t*
     data = (uint8_t*)data + 64;
   }
 }
+
+} // namespace crypto

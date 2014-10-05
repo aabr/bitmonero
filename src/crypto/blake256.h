@@ -33,6 +33,8 @@
 
 #include <stdint.h>
 
+namespace crypto
+{
 typedef struct {
   uint32_t h[8], s[4], t[2];
   int buflen, nullt;
@@ -69,5 +71,7 @@ void hmac_blake224_final(hmac_state *, uint8_t *);
 
 void hmac_blake256_hash(uint8_t *, const uint8_t *, uint64_t, const uint8_t *, uint64_t);
 void hmac_blake224_hash(uint8_t *, const uint8_t *, uint64_t, const uint8_t *, uint64_t);
+
+} // namespace crypto
 
 #endif /* _BLAKE256_H_ */

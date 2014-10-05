@@ -47,6 +47,9 @@
  #include <stdlib.h>
 #endif
 
+#include "crypto-ops.h"
+#include "random.h"
+
 namespace crypto {
 
   using std::abort;
@@ -57,11 +60,6 @@ namespace crypto {
   using std::size_t;
   using std::uint32_t;
   using std::uint64_t;
-
-  extern "C" {
-#include "crypto-ops.h"
-#include "random.h"
-  }
 
   mutex random_lock;
 

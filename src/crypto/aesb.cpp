@@ -20,11 +20,6 @@ Issue Date: 20/12/2007
 
 #include <stdint.h>
 
-#if defined(__cplusplus)
-extern "C"
-{
-#endif
-
 #define TABLE_ALIGN		32
 #define WPOLY			0x011b
 #define N_COLS			4
@@ -140,7 +135,9 @@ extern "C"
 
 d_4(uint32_t, t_dec(f,n), sb_data, u0, u1, u2, u3);
 
-void aesb_single_round(const uint8_t *in, uint8_t *out, uint8_t *expandedKey)
+namespace crypto
+{
+void aesb_single_round(const uint8_t *in, uint8_t *out, const uint8_t *expandedKey)
 {   
 	uint32_t b0[4], b1[4];
 	const uint32_t  *kp = (uint32_t *) expandedKey;
@@ -151,7 +148,7 @@ void aesb_single_round(const uint8_t *in, uint8_t *out, uint8_t *expandedKey)
 	state_out(out, b1);
 }
 
-void aesb_pseudo_round(const uint8_t *in, uint8_t *out, uint8_t *expandedKey)
+void aesb_pseudo_round(const uint8_t *in, uint8_t *out, const uint8_t *expandedKey)
 {   
 	uint32_t b0[4], b1[4];
 	const uint32_t  *kp = (uint32_t *) expandedKey;
@@ -171,7 +168,4 @@ void aesb_pseudo_round(const uint8_t *in, uint8_t *out, uint8_t *expandedKey)
 	state_out(out, b0);
 }
 
-
-#if defined(__cplusplus)
-}
-#endif
+} // namespace crypto
