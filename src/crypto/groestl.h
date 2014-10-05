@@ -59,18 +59,19 @@ typedef crypto_uint64 uint64_t;
   ((ROTL32(a,8) & li_32(00FF00FF)) |		\
    (ROTL32(a,24) & li_32(FF00FF00)))
 
-
+namespace crypto
+{
 /* NIST API begin */
 typedef unsigned char BitSequence;
 typedef unsigned long long DataLength;
 typedef struct {
-  uint32_t chaining[SIZE512/sizeof(uint32_t)];            /* actual state */
+  uint32_t chaining[SIZE512 / sizeof(uint32_t)];            /* actual state */
   uint32_t block_counter1,
-  block_counter2;         /* message block counter(s) */
+    block_counter2;         /* message block counter(s) */
   BitSequence buffer[SIZE512];      /* data buffer */
   int buf_ptr;              /* data buffer pointer */
   int bits_in_last_byte;    /* no. of message bits in last byte of
-			       data buffer */
+              data buffer */
 } hashState;
 
 /*void Init(hashState*);
@@ -81,8 +82,9 @@ void groestl(const BitSequence*, DataLength, BitSequence*);
 
 /*
 int crypto_hash(unsigned char *out,
-		const unsigned char *in,
-		unsigned long long len);
+const unsigned char *in,
+unsigned long long len);
 */
 
+} // namespace crypto
 #endif /* __hash_h */

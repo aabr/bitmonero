@@ -248,6 +248,13 @@ namespace nodetool
     }
     else
     {
+      const std::vector<std::string> m_seed_nodes_list =
+      { "seeds.moneroseeds.se"
+      , "seeds.moneroseeds.ae.org"
+      , "seeds.moneroseeds.ch"
+      , "seeds.moneroseeds.li"
+      };
+
       // for each hostname in the seed nodes list, attempt to DNS resolve and
       // add the result addresses as seed nodes
       // TODO: at some point add IPv6 support, but that won't be relevant

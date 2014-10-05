@@ -37,12 +37,9 @@
 #include "common/pod-class.h"
 #include "generic-ops.h"
 #include "hash.h"
+#include "random.h"
 
 namespace crypto {
-
-  extern "C" {
-#include "random.h"
-  }
 
   extern std::mutex random_lock;
 

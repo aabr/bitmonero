@@ -11,6 +11,8 @@
 #include "groestl.h"
 #include "groestl_tables.h"
 
+namespace crypto
+{
 #define P_TYPE 0
 #define Q_TYPE 1
 
@@ -358,3 +360,5 @@ static int crypto_hash(unsigned char *out,
 }
 
 */
+
+} // namespace crypto

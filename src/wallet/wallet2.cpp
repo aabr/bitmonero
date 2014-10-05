@@ -91,9 +91,9 @@ bool wallet2::get_seed(std::string& electrum_words)
   crypto::ElectrumWords::bytes_to_words(get_account().get_keys().m_spend_secret_key, electrum_words);
 
   crypto::secret_key second;
-  keccak((uint8_t *)&get_account().get_keys().m_spend_secret_key, sizeof(crypto::secret_key), (uint8_t *)&second, sizeof(crypto::secret_key));
+  crypto::keccak((uint8_t *)&get_account().get_keys().m_spend_secret_key, sizeof(crypto::secret_key), (uint8_t *)&second, sizeof(crypto::secret_key));
 
-  sc_reduce32((uint8_t *)&second);
+  crypto::sc_reduce32((uint8_t *)&second);
   
   return memcmp(second.data,get_account().get_keys().m_view_secret_key.data, sizeof(crypto::secret_key)) == 0;
 }

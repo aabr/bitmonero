@@ -42,7 +42,7 @@ namespace crypto { \
   inline bool operator!=(const type &_v1, const type &_v2) { \
     return std::memcmp(&_v1, &_v2, sizeof(type)) != 0; \
   } \
-}
+} // namespace crypto
 
 #define CRYPTO_MAKE_HASHABLE(type) \
 CRYPTO_MAKE_COMPARABLE(type) \

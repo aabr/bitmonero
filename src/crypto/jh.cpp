@@ -18,6 +18,9 @@
 #include <stdint.h>
 #include <string.h>
 
+namespace crypto
+{
+
 /*typedef unsigned long long uint64;*/
 typedef uint64_t uint64;
 
@@ -365,3 +368,5 @@ HashReturn jh_hash(int hashbitlen, const BitSequence *data,DataLength databitlen
       else
             return(BAD_HASHLEN);
 }
+
+} // namespace crypto

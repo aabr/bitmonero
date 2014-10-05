@@ -34,13 +34,10 @@
 
 #include "common/pod-class.h"
 #include "generic-ops.h"
-
-namespace crypto {
-
-  extern "C" {
 #include "hash-ops.h"
-  }
 
+namespace crypto
+{
 #pragma pack(push, 1)
   POD_CLASS hash {
     char data[HASH_SIZE];
@@ -71,6 +68,6 @@ namespace crypto {
     tree_hash(reinterpret_cast<const char (*)[HASH_SIZE]>(hashes), count, reinterpret_cast<char *>(&root_hash));
   }
 
-}
+} // namespace crypto
 
 CRYPTO_MAKE_HASHABLE(hash)

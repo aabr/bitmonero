@@ -42,6 +42,9 @@
 #include <stdint.h>
 #include "blake256.h"
 
+namespace crypto
+{
+
 #define U8TO32(p) \
     (((uint32_t)((p)[0]) << 24) | ((uint32_t)((p)[1]) << 16) |    \
      ((uint32_t)((p)[2]) <<  8) | ((uint32_t)((p)[3])      ))
@@ -353,3 +356,5 @@ void hmac_blake224_hash(uint8_t *out, const uint8_t *key, uint64_t keylen, const
     hmac_blake224_update(&S, in, inlen * 8);
     hmac_blake224_final(&S, out);
 }
+
+} // namespace crypto

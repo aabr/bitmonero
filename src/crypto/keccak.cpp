@@ -5,6 +5,8 @@
 #include "hash-ops.h"
 #include "keccak.h"
 
+namespace crypto
+{
 const uint64_t keccakf_rndc[24] = 
 {
     0x0000000000000001, 0x0000000000008082, 0x800000000000808a,
@@ -110,3 +112,5 @@ void keccak1600(const uint8_t *in, int inlen, uint8_t *md)
 {
     keccak(in, inlen, md, sizeof(state_t));
 }
+
+} // namespace crypto

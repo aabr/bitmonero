@@ -28,15 +28,16 @@
 // 
 // Parts of this file are originally copyright (c) 2012-2013 The Cryptonote developers
 
-#include <assert.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <string.h>
 
-#include "jh.h"
 #include "hash-ops.h"
+#include "skein.h"
 
-void hash_extra_jh(const void *data, size_t length, char *hash) {
-  int r = jh_hash(HASH_SIZE * 8, data, 8 * length, (uint8_t*)hash);
-  assert(SUCCESS == r);
+namespace crypto
+{
+void hash_extra_skein(const void *data, size_t length, char *hash) {
+  int r = skein_hash(8 * HASH_SIZE, (const BitSequence*)data, 8 * length, (uint8_t*)hash);
+  assert(SKEIN_SUCCESS == r);
 }
+} // namespace crypto
