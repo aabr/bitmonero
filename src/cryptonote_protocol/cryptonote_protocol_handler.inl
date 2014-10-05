@@ -322,7 +322,7 @@ namespace cryptonote
     context.m_remote_blockchain_height = arg.current_blockchain_height;
 
     size_t count = 0;
-    BOOST_FOREACH(const block_complete_entry& block_entry, arg.blocks)
+    for(auto& block_entry : arg.blocks)
     {
       ++count;
       block b;
@@ -378,11 +378,11 @@ namespace cryptonote
       epee::misc_utils::auto_scope_leave_caller scope_exit_handler = epee::misc_utils::create_scope_leave_handler(
         boost::bind(&t_core::resume_mine, &m_core));
 
-      BOOST_FOREACH(const block_complete_entry& block_entry, arg.blocks)
+      for(auto& block_entry : arg.blocks)
       {
         //process transactions
         TIME_MEASURE_START(transactions_process_time);
-        BOOST_FOREACH(auto& tx_blob, block_entry.txs)
+        for(auto& tx_blob : block_entry.txs)
         {
           tx_verification_context tvc = AUTO_VAL_INIT(tvc);
           m_core.handle_incoming_tx(tx_blob, tvc, true);
@@ -554,7 +554,7 @@ namespace cryptonote
       m_p2p->drop_connection(context);
     }
 
-    BOOST_FOREACH(auto& bl_id, arg.m_block_ids)
+    for(auto& bl_id : arg.m_block_ids)
     {
       if(!m_core.have_block(bl_id))
         context.m_needed_objects.push_back(bl_id);

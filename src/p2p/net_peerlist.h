@@ -226,7 +226,7 @@ namespace nodetool
   bool peerlist_manager::merge_peerlist(const std::list<peerlist_entry>& outer_bs)
   {
     CRITICAL_REGION_LOCAL(m_peerlist_lock);
-    BOOST_FOREACH(const peerlist_entry& be,  outer_bs)
+    for(auto& be : outer_bs)
     {
       append_with_peer_gray(be);
     }

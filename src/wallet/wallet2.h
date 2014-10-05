@@ -287,7 +287,7 @@ namespace tools
       splitted_dsts.clear();
       dust = 0;
 
-      BOOST_FOREACH(auto& de, dsts)
+      for(auto& de : dsts)
       {
         cryptonote::decompose_amount_into_digits(de.amount, dust_threshold,
           [&](uint64_t chunk) { splitted_dsts.push_back(cryptonote::tx_destination_entry(chunk, de.addr)); },
@@ -361,7 +361,7 @@ namespace tools
 
     // calculate total amount being sent to all destinations
     // throw if total amount overflows uint64_t
-    BOOST_FOREACH(auto& dt, dsts)
+    for(auto& dt : dsts)
     {
       THROW_WALLET_EXCEPTION_IF(0 == dt.amount, error::zero_destination);
       needed_money += dt.amount;
@@ -382,7 +382,7 @@ namespace tools
     {
       COMMAND_RPC_GET_RANDOM_OUTPUTS_FOR_AMOUNTS::request req = AUTO_VAL_INIT(req);
       req.outs_count = fake_outputs_count + 1;// add one to make possible (if need) to skip real output key
-      BOOST_FOREACH(transfer_container::iterator it, selected_transfers)
+      for(auto it : selected_transfers)
       {
         THROW_WALLET_EXCEPTION_IF(it->m_tx.vout.size() <= it->m_internal_output_index, error::wallet_internal_error,
           "m_internal_output_index = " + std::to_string(it->m_internal_output_index) +
@@ -399,7 +399,7 @@ namespace tools
         std::to_string(daemon_resp.outs.size()) + ", expected " +  std::to_string(selected_transfers.size()));
 
       std::vector<COMMAND_RPC_GET_RANDOM_OUTPUTS_FOR_AMOUNTS::outs_for_amount> scanty_outs;
-      BOOST_FOREACH(COMMAND_RPC_GET_RANDOM_OUTPUTS_FOR_AMOUNTS::outs_for_amount& amount_outs, daemon_resp.outs)
+      for(auto& amount_outs : daemon_resp.outs)
       {
         if (amount_outs.outs.size() < fake_outputs_count)
         {
@@ -412,7 +412,7 @@ namespace tools
     //prepare inputs
     size_t i = 0;
     std::vector<cryptonote::tx_source_entry> sources;
-    BOOST_FOREACH(transfer_container::iterator it, selected_transfers)
+    for(auto it : selected_transfers)
     {
       sources.resize(sources.size()+1);
       cryptonote::tx_source_entry& src = sources.back();
@@ -422,7 +422,7 @@ namespace tools
       if(daemon_resp.outs.size())
       {
         daemon_resp.outs[i].outs.sort([](const out_entry& a, const out_entry& b){return a.global_amount_index < b.global_amount_index;});
-        BOOST_FOREACH(out_entry& daemon_oe, daemon_resp.outs[i].outs)
+        for(auto& daemon_oe : daemon_resp.outs[i].outs)
         {
           if(td.m_global_output_index == daemon_oe.global_amount_index)
             continue;

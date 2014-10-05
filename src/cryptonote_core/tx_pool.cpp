@@ -160,7 +160,7 @@ namespace cryptonote
 
     tvc.m_verifivation_failed = true;
     //update image_keys container, here should everything goes ok.
-    BOOST_FOREACH(const auto& in, tx.vin)
+    for(auto& in : tx.vin)
     {
       CHECKED_GET_SPECIFIC_VARIANT(in, const txin_to_key, txin, false);
       std::unordered_set<crypto::hash>& kei_image_set = m_spent_key_images[txin.k_image];
@@ -187,7 +187,7 @@ namespace cryptonote
   bool tx_memory_pool::remove_transaction_keyimages(const transaction& tx)
   {
     CRITICAL_REGION_LOCAL(m_transactions_lock);
-    BOOST_FOREACH(const txin_v& vi, tx.vin)
+    for(auto& vi : tx.vin)
     {
       CHECKED_GET_SPECIFIC_VARIANT(vi, const txin_to_key, txin, false);
       auto it = m_spent_key_images.find(txin.k_image);
@@ -259,7 +259,7 @@ namespace cryptonote
   void tx_memory_pool::get_transactions(std::list<transaction>& txs) const
   {
     CRITICAL_REGION_LOCAL(m_transactions_lock);
-    BOOST_FOREACH(const auto& tx_vt, m_transactions)
+    for(auto& tx_vt : m_transactions)
       txs.push_back(tx_vt.second.tx);
   }
   //---------------------------------------------------------------------------------
@@ -294,7 +294,7 @@ namespace cryptonote
   bool tx_memory_pool::have_tx_keyimges_as_spent(const transaction& tx) const
   {
     CRITICAL_REGION_LOCAL(m_transactions_lock);
-    BOOST_FOREACH(const auto& in, tx.vin)
+    for(auto& in : tx.vin)
     {
       CHECKED_GET_SPECIFIC_VARIANT(in, const txin_to_key, tokey_in, true);//should never fail
       if(have_tx_keyimg_as_spent(tokey_in.k_image))
@@ -421,7 +421,7 @@ namespace cryptonote
     size_t max_total_size = (130 * median_size) / 100 - CRYPTONOTE_COINBASE_BLOB_RESERVED_SIZE;
     std::unordered_set<crypto::key_image> k_images;
 
-    BOOST_FOREACH(transactions_container::value_type& tx, m_transactions)
+    for(auto& tx : m_transactions)
     {
       // Can not exceed maximum block size
       if (max_total_size < total_size + tx.second.blob_size)

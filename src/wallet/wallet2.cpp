@@ -142,7 +142,7 @@ void wallet2::process_new_transaction(const cryptonote::transaction& tx, uint64_
 				"transactions outputs size=" + std::to_string(tx.vout.size()) +
 				" not match with COMMAND_RPC_GET_TX_GLOBAL_OUTPUTS_INDEXES response size=" + std::to_string(res.o_indexes.size()));
 
-      BOOST_FOREACH(size_t o, outs)
+      for(auto o : outs)
       {
 	THROW_WALLET_EXCEPTION_IF(tx.vout.size() <= o, error::wallet_internal_error, "wrong out in transaction: internal index=" +
 				  std::to_string(o) + ", total_outs=" + std::to_string(tx.vout.size()));
@@ -169,7 +169,7 @@ void wallet2::process_new_transaction(const cryptonote::transaction& tx, uint64_
 
   uint64_t tx_money_spent_in_ins = 0;
   // check all outputs for spending (compare key images)
-  BOOST_FOREACH(auto& in, tx.vin)
+  for(auto& in : tx.vin)
   {
     if(in.type() != typeid(cryptonote::txin_to_key))
       continue;
@@ -225,7 +225,7 @@ void wallet2::process_new_blockchain_entry(const cryptonote::block& b, cryptonot
     TIME_MEASURE_FINISH(miner_tx_handle_time);
 
     TIME_MEASURE_START(txs_handle_time);
-    BOOST_FOREACH(auto& txblob, bche.txs)
+    for(auto& txblob : bche.txs)
     {
       cryptonote::transaction tx;
       bool r = parse_and_validate_tx_from_blob(txblob, tx);
@@ -285,7 +285,7 @@ void wallet2::pull_blocks(uint64_t start_height, size_t& blocks_added)
   THROW_WALLET_EXCEPTION_IF(res.status != CORE_RPC_STATUS_OK, error::get_blocks_error, res.status);
 
   size_t current_index = res.start_height;
-  BOOST_FOREACH(auto& bl_entry, res.blocks)
+  for(auto& bl_entry : res.blocks)
   {
     cryptonote::block bl;
     r = cryptonote::parse_and_validate_block_from_blob(bl_entry.block, bl);
@@ -611,7 +611,7 @@ void wallet2::store()
 uint64_t wallet2::unlocked_balance()
 {
   uint64_t amount = 0;
-  BOOST_FOREACH(transfer_details& td, m_transfers)
+  for(auto& td : m_transfers)
     if(!td.m_spent && is_transfer_unlocked(td))
       amount += td.amount();
 
@@ -621,12 +621,12 @@ uint64_t wallet2::unlocked_balance()
 uint64_t wallet2::balance()
 {
   uint64_t amount = 0;
-  BOOST_FOREACH(auto& td, m_transfers)
+  for(auto& td : m_transfers)
     if(!td.m_spent)
       amount += td.amount();
 
 
-  BOOST_FOREACH(auto& utx, m_unconfirmed_txs)
+  for(auto& utx : m_unconfirmed_txs)
     amount+= utx.second.m_change;
 
   return amount;
@@ -900,7 +900,7 @@ void wallet2::commit_tx(pending_tx& ptx)
 
   LOG_PRINT_L2("transaction " << get_transaction_hash(ptx.tx) << " generated ok and sent to daemon, key_images: [" << ptx.key_images << "]");
 
-  BOOST_FOREACH(transfer_container::iterator it, ptx.selected_transfers)
+  for(auto it : ptx.selected_transfers)
     it->m_spent = true;
 
   LOG_PRINT_L0("Transaction successfully sent. <" << get_transaction_hash(ptx.tx) << ">" << ENDL
@@ -951,7 +951,7 @@ std::vector<wallet2::pending_tx> wallet2::create_transactions(std::vector<crypto
         ptx_vector.push_back(ptx);
 
         // mark transfers to be used as "spent"
-        BOOST_FOREACH(transfer_container::iterator it, ptx.selected_transfers)
+        for(auto it : ptx.selected_transfers)
           it->m_spent = true;
       }
 
@@ -961,7 +961,7 @@ std::vector<wallet2::pending_tx> wallet2::create_transactions(std::vector<crypto
       for (auto & ptx : ptx_vector)
       {
         // mark transfers to be used as not spent
-        BOOST_FOREACH(transfer_container::iterator it2, ptx.selected_transfers)
+        for(auto it2 : ptx.selected_transfers)
           it2->m_spent = false;
 
       }
@@ -978,7 +978,7 @@ std::vector<wallet2::pending_tx> wallet2::create_transactions(std::vector<crypto
       for (auto & ptx : ptx_vector)
       {
         // mark transfers to be used as not spent
-        BOOST_FOREACH(transfer_container::iterator it2, ptx.selected_transfers)
+        for(auto it2 : ptx.selected_transfers)
           it2->m_spent = false;
 
       }
@@ -996,7 +996,7 @@ std::vector<wallet2::pending_tx> wallet2::create_transactions(std::vector<crypto
       for (auto & ptx : ptx_vector)
       {
         // mark transfers to be used as not spent
-        BOOST_FOREACH(transfer_container::iterator it2, ptx.selected_transfers)
+        for(auto it2 : ptx.selected_transfers)
           it2->m_spent = false;
 
       }
